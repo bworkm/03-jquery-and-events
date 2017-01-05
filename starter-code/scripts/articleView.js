@@ -19,13 +19,16 @@ articleView.populateFilters = function() {
 articleView.handleAuthorFilter = function() {
   $('#author-filter').on('change', function() {
     if ($(this).val()) {
-      /* TODO: If the select box changes to an option that has a value, we should:
+      $('article').hide();
+      $('article[data-attribute="' + $(this).val() + '"]').fadeIn('slow');
+      /* DONE: If the select box changes to an option that has a value, we should:
           1. Hide all of the articles
           2. Fade in only the articles that match based on on the author
             that was aselected. Hint: use an attribute selector to find
             those articles that match the value, and then fade them in.
         */
     } else {
+      $('article').not('template').fadeIn('slow');
     /* Otherwise, we should:
         1. Show all the articles except the template */
     }
@@ -34,18 +37,25 @@ articleView.handleAuthorFilter = function() {
 };
 
 articleView.handleCategoryFilter = function() {
-  /* TODO: Just like we do for #author-filter above, we should also handle
+  $('#category-filter').on('change', function() {
+    if ($(this).val()) {
+      $('article').hide();
+      $('article[data-category="' + $(this).val() + '"]').fadeIn('slow');
+    }
+    else {
+      $('article').not('template').fadeIn('slow');
+    }
+  /* DONE: Just like we do for #author-filter above, we should also handle
   change events on the #category-filter element. Be sure to reset the
   #author-filter while you're at it! */
-};
+    $('#author-filter').val('');
+  });
+}
 
 articleView.handleMainNav = function () {
   $('.main-nav').on('click', '.tab', function() {
-    console.log('pretty ponies');
     $('.tab-content').hide();
-
     $('#' + $(this).attr('data-content')).fadeIn('slow');
-
     /* DONE:
       1. Hide all of the .tab-content sections
       2. Fade in the single .tab-content section that is
@@ -69,4 +79,7 @@ articleView.setTeasers = function() {
 };
 
 // TODO: Invoke all of the above functions (I mean, methods!):
+articleView.populateFilters();
 articleView.handleMainNav();
+articleView.handleAuthorFilter();
+articleView.handleCategoryFilter();
